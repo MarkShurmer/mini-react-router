@@ -9,12 +9,3 @@ export type RouteType = {
 export type RouterContextType = {
   route: RouteType;
 };
-
-export const routes: RoutesType = {
-  home: {
-    path: '/',
-  },
-  login: {
-    path: '/login',
-  },
-};

@@ -1,6 +1,6 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { ReactNode, useContext, useLayoutEffect, useState } from 'react';
 import { createBrowserHistory, Location } from 'history';
-import { locationToRoute } from './Utils';
+import { locationToRoute } from '@routing/Utils';
 import { NotFound } from '@routing/NotFound';
 import { RouterContextType, RoutesType } from '@routing/routing-types';
 
@@ -12,14 +12,16 @@ export const RouterContext = React.createContext<RouterContextType>({
 
 type Props = {
   routeList: RoutesType;
+  notFound?: ReactNode;
   children: React.ReactNode;
 };
 
-const RouterProvider = ({ routeList, children }: Props) => {
+const BrowserRouter = ({ routeList, children, notFound }: Props) => {
   const [routes] = useState(
     Object.keys(routeList).map((key) => routeList[key].path)
   );
   const [route, setRoute] = useState(locationToRoute(history));
+  const notFoundComponent = notFound ?? NotFound();
 
   const handleRouteChange = (location: { location: Location }) => {
     const route = locationToRoute(location);
@@ -37,11 +39,11 @@ const RouterProvider = ({ routeList, children }: Props) => {
 
   return (
     <RouterContext.Provider value={{ route }}>
-      {is404 ? <NotFound /> : children}
+      {is404 ? notFoundComponent : children}
     </RouterContext.Provider>
   );
 };
 
 const useRouter = () => useContext(RouterContext);
 
-export { useRouter, RouterProvider, history };
+export { useRouter, BrowserRouter, history };

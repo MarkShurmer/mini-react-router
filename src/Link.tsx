@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter, history } from '@routing/RouterContext';
+import { useRouter, history } from '@routing/BrowserRouter';
 
 type Props = {
   to: string;

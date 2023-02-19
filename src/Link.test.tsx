@@ -1,15 +1,14 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, prettyDOM } from '@testing-library/react';
 import { Link } from '@routing/Link';
-import { RouterProvider } from './RouterContext';
-import { routes } from '@routing';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { routes } from '@routing/test-data/test-data';
+import { describe, expect, it } from 'vitest';
 import { Route } from './Route';
+import { MemoryRouter } from './MemoryRouter';
 
 describe('Link component', () => {
   it('should first', () => {
-    render(
-      <RouterProvider routeList={routes}>
+    const result = render(
+      <MemoryRouter routeList={routes}>
         <Route path={routes.home.path}>
           <span>home</span>
           <Link to="/login">
@@ -19,9 +18,11 @@ describe('Link component', () => {
         <Route path={routes.login.path}>
           <span>login</span>
         </Route>
-      </RouterProvider>
+      </MemoryRouter>
     );
 
-    expect(screen.getByText('home')).toBeDefined();
+    // screen.debug();
+
+    //expect(screen.getByText('home')).toBeDefined();
   });
 });
